@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./index.css";
 
 const pizzaData = [
   {
@@ -48,7 +49,7 @@ const pizzaData = [
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Header />
       <Menu />
       <Footer />
@@ -57,28 +58,52 @@ function App() {
 }
 
 function Header() {
-  return <h1>Fast React Pizza Co.</h1>;
+  /*
+1 sposob - inline
+    return <h1 style={{color: "red", textTransform: "uppercase", fontSize: "3rem"}}>Fast React Pizza Co.</h1>;
+*/
+
+  /*
+    2 sposób mozliwy bo style w inlinie to obiekt:
+    const styling = {
+      color: "red",
+      textTransform: "uppercase",
+      fontSize: "3rem",
+    };
+    return <h1 style={styling}>Fast React Pizza Co.</h1>;
+*/
+
+  // 3 sposob
+  return (
+    <header className="header">
+      <h1>Fast React Pizza Co.</h1>;
+    </header>
+  );
 }
 
 function Menu() {
   return (
-    <div>
-      <h2>Our HOT menu:</h2>
+    <main className="menu">
+      <h2>Our HOT menu</h2>
       <Pizza />
       <Pizza />
       <Pizza />
-    </div>
+    </main>
   );
 }
 
 function Footer() {
-const hour = new Date().getHours();
-console.log(hour);
+  const hour = new Date().getHours();
+  const openHour = 20;
+  const closeHour = 8;
+  const isOpen = hour >= openHour || hour <= closeHour;
+
+  isOpen ? alert("We are open!") : alert("Wait till we will be open");
 
   return (
-    <footer>
+    <footer className="footer">
       <span>{new Date().toLocaleTimeString()}</span>
-      <span>We're open from dusk till down!</span>
+      <span> We're open from dusk till down!</span>
     </footer>
   );
 }
@@ -87,7 +112,7 @@ function Pizza() {
   return (
     <div>
       <img src="pizzas/spinaci.jpg" alt="" />
-      <h2>Pizza Spinaci</h2>
+      <h3>Pizza Spinaci</h3>
       <p>Tomato, mozarella, spinach, and ricotta cheese</p>
     </div>
   );
