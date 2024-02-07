@@ -76,19 +76,60 @@ function Header() {
   // 3 sposob
   return (
     <header className="header">
-      <h1>Fast React Pizza Co.</h1>;
+      <h1>Fast React Pizza Co.</h1>
     </header>
   );
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  const isPizzas = pizzas.length > 0;
+
   return (
     <main className="menu">
       <h2>Our HOT menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
+      {/*warunkowe renderowanie z operatorem &&
+      {isPizzas && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      )}
+      */}
+      {
+        //warunkowe renderowanie z operatorem potrójnym
+      }
+      {isPizzas ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <p>We're still preparing perfect circles</p>
+      )}
     </main>
+  );
+}
+
+function Pizza({ pizzaObj }) {
+  /*
+  przy przujmowaniu propsów od razu robimy destrukturyzację opbiektu props,
+  wiemy że zawiera obiekt pizzaObj, wygląda dokładnie tak: let props = { pizzaObj: {ingredients:"Tomato, mozarella, ham,aragula, and burrata cheese", name: "Pizza Prosciutto", photoName:"pizzas/prosciutto.jpg", price:18, soldOut: false}}, zapis function({pizzaObj}) to natychmiastowa destrukturyzacja obiektu props i "pobranie" obiektu pizzaObj
+  */
+
+  if (pizzaObj.soldOut) return null;
+
+  return (
+    <li className="pizza">
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
+      <div>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.price + 3}</span>
+      </div>
+    </li>
   );
 }
 
@@ -98,22 +139,19 @@ function Footer() {
   const closeHour = 8;
   const isOpen = hour >= openHour || hour <= closeHour;
 
-  isOpen ? alert("We are open!") : alert("Wait till we will be open");
+  //   isOpen ? alert("We are open!") : alert("Wait till we will be open");
 
-  return (
-    <footer className="footer">
-      <span>{new Date().toLocaleTimeString()}</span>
-      <span> We're open from dusk till down!</span>
-    </footer>
-  );
+  // skladnia wieloreturnowa, może być wiele returnów w componencie ale każdy z nich zwraca tylko jeden blok/element
+  if (!isOpen) return <p>Closed. Come back when the sun goes down.</p>;
+
+  return <footer className="footer">{isOpen && <Order />}</footer>;
 }
 
-function Pizza() {
+function Order() {
   return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="" />
-      <h3>Pizza Spinaci</h3>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
+    <div className="order">
+      <p>We are OPEN from dusk till dawn</p>
+      <button className="btn">Order</button>
     </div>
   );
 }
