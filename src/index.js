@@ -144,13 +144,20 @@ function Footer() {
   // skladnia wieloreturnowa, może być wiele returnów w componencie ale każdy z nich zwraca tylko jeden blok/element
   if (!isOpen) return <p>Closed. Come back when the sun goes down.</p>;
 
-  return <footer className="footer">{isOpen && <Order />}</footer>;
+  return (
+    <footer className="footer">
+      {isOpen && <Order closeHour={closeHour} openHour={openHour} />}
+    </footer>
+  );
 }
 
-function Order() {
+function Order({ closeHour, openHour }) {
+  // ponownie uzyta destrukturyzacja obiektu props, do proposów przekazano 2 właśćiwości closeHour=8 i openHour=20
   return (
     <div className="order">
-      <p>We are OPEN from dusk till dawn</p>
+      <p>
+        We are OPEN from dusk ({openHour}:00) till dawn ({closeHour}:00)
+      </p>
       <button className="btn">Order</button>
     </div>
   );
