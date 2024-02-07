@@ -100,12 +100,20 @@ function Menu() {
       {
         //warunkowe renderowanie z operatorem potrójnym
       }
+
       {isPizzas ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We're still preparing perfect circles</p>
       )}
@@ -119,15 +127,19 @@ function Pizza({ pizzaObj }) {
   wiemy że zawiera obiekt pizzaObj, wygląda dokładnie tak: let props = { pizzaObj: {ingredients:"Tomato, mozarella, ham,aragula, and burrata cheese", name: "Pizza Prosciutto", photoName:"pizzas/prosciutto.jpg", price:18, soldOut: false}}, zapis function({pizzaObj}) to natychmiastowa destrukturyzacja obiektu props i "pobranie" obiektu pizzaObj
   */
 
-  if (pizzaObj.soldOut) return null;
+  // if (pizzaObj.soldOut) return null;
 
   return (
-    <li className="pizza">
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      {/* warunkowe ustawianie klas - najpierw rozpoczynasz JSX, potem template literal a potem wyrażenie ${JS} któe zwrca pożądna klasę bądź pusty tring */}
       <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
         <h3>{pizzaObj.name}</h3>
         <p>{pizzaObj.ingredients}</p>
-        <span>{pizzaObj.price + 3}</span>
+        {/*{pizzaObj.soldOut ? (<span>SOLD OUT</span>) : (<span>{pizzaObj.price}</span>)}
+          ten sam efekt co poniżej ale troche inne ujęcie
+          */}
+        <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
       </div>
     </li>
   );
